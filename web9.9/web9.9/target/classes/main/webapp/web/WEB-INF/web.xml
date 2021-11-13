@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"-->
+<!--         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+<!--         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee-->
+<!--	http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">-->
+<web-app version="4.0" >
+  <display-name>Archetype Created Web Application</display-name>
+
+  <!--servlet标签给tomcat配置servelt程序-->
+  <servlet>
+    <servlet-name>RegistServlet</servlet-name>
+    <servlet-class>main.loginweb.web.RegistServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RegistServlet</servlet-name>
+    <url-pattern>/RegistServlet</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>LoginServlet</servlet-name>
+    <servlet-class>main.loginweb.web.LoginServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LoginServlet</servlet-name>
+    <url-pattern>/LoginServlet</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <display-name>UploadServlet</display-name>
+    <servlet-name>UploadServlet</servlet-name>
+    <servlet-class>main.loginweb.web.UploadServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>UploadServlet</servlet-name>
+    <url-pattern>/UploadServlet</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <!--servlet程序的别名，一般为类名-->
+    <servlet-name>HelloServlet</servlet-name>
+    <!--servlet程序全类名-->
+    <servlet-class>main.webapp.web.servlet.HelloServlet</servlet-class>
+  </servlet>
+
+  <!--给servlet程序配置访问地址-->
+  <servlet-mapping>
+    <!--告诉服务器我当前配置的地址给哪个servlet程序用-->
+    <servlet-name>HelloServlet</servlet-name>
+    <!--配置访问地址-->
+    <url-pattern>/hello</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>HelloServlet2</servlet-name>
+    <servlet-class>main.webapp.web.servlet.HelloServlet2</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>
+      HelloServlet2
+    </servlet-name>
+    <url-pattern>/hello2</url-pattern>
+  </servlet-mapping>
+
+  <filter>
+    <filter-name>ManagerFilter</filter-name>
+    <filter-class>main.loginweb.filter.ManagerFilter</filter-class>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>ManagerFilter</filter-name>
+    <url-pattern>/web/filterPages/*</url-pattern>
+    <url-pattern>/web/MainPageServlet</url-pattern>
+  </filter-mapping>
+
+</web-app>

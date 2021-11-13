@@ -1,0 +1,41 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>主页面</title>
+    <base href="http://localhost:8080/web9_9_war_exploded/">
+</head>
+<body>
+<div id="container" style="width: 1800px">
+    <div id="header" style="background-color:#FFA500">
+        <h1>学生选课管理系统</h1>
+    </div>
+</div>
+<hr />
+
+<h2>这里是主页</h2>
+
+
+<table border="1">
+    <tr>
+        <th>学生id</th>
+        <th>姓名</th>
+        <th>课程名</th>
+        <th>课程分数</th>
+        <th>任课老师</th>
+
+    </tr>
+    <tr>
+        <td>${course.studentID}</td>
+        <td>${course.studentName}</td>
+        <td>${course.courseName}</td>
+        <td>${course.courseMark}</td>
+        <td>${course.courseTeacher}</td>
+
+
+    </tr>
+</table>
+
+
+</body>
+</html>

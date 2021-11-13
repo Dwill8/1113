@@ -1,0 +1,13 @@
+{
+  "username": username,
+  "auth": [login],
+  "login_time": time,
+  "gender": ,
+  "images": src,
+}
+
+if request.get("") in session.get("auth"){
+  continue
+}else{
+  return [info:"nimeiyouquanxian"]
+}
