@@ -14,7 +14,6 @@ import java.util.List;
 public class CourseServiceImpl implements CourseService {
 
     private CourseDAO courseDAO = new CourseDAOImpl();
-    private UserDAO userDAO = new UserDaoImpl();
 
     @Override
     public void addCourse(Course course) {
