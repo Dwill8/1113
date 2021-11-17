@@ -6,11 +6,11 @@ public class Role {
     String updatedTime;
     Integer status;
 
-    public Integer getId() {
+    public Integer getRid() {
         return rid;
     }
 
-    public void setId(Integer rid) {
+    public void setRid(Integer rid) {
         this.rid = rid;
     }
 
@@ -44,4 +44,5 @@ public class Role {
         this.updatedTime = updatedTime;
         this.status = status;
     }
+    public Role() {}
 }

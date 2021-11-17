@@ -5,7 +5,7 @@ import main.RBAC.bean.RUser;
 import java.util.List;
 
 public interface RUserService {
-    public List<RUser> showUser();
+    public List<RUser> showUser(Integer pageNum, Integer pagesize);
     public void addUser(String username);
     public void deleteUser(String username);
 

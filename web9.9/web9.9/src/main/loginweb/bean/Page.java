@@ -4,6 +4,7 @@ import java.util.List;
 
 public class Page {
     public static final Integer PAGE_SIZE = 3;
+    //要不要加默认页码为1
 
     private Integer pageNum; //当前页
     private Integer pageTotal; //总页码

@@ -11,15 +11,12 @@ import java.util.Map;
 
 public class RUserServiceImpl implements RUserService {
 
-    private RUserService rUserService = new RUserServiceImpl();
     private RUserDAO rUserDAO;
 
     @Override
-    public List showUser(Integer pageNum, Integer pagesize) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("start", (pageNum - 1) * pagesize);
-        List<RUser> list = rUserService.pageQueryData(map);
-        //TODO
+    public List<RUser> showUser(Integer pageNum, Integer pagesize) {
+        //此处pageNum默认为1
+        List<RUser> list = rUserDAO.pageQueryData(pageNum, pagesize);
         return list;
     }
 
@@ -31,9 +28,7 @@ public class RUserServiceImpl implements RUserService {
     @Override
     public void deleteUser(String username) {
 
+
     }
 
-    public List<RUser> pageQueryData(Map<String, Object> map) {
-        return rUserDAO.pageQueryData(map);
-    }
 }
