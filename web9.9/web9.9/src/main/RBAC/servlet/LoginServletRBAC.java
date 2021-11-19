@@ -17,11 +17,6 @@ public class LoginServletRBAC extends HttpServlet {
     private UserService userService = new UserServiceImpl();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("LoginServlet被访问了doGet"); // log 4j,junit
-    }
-
-    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("LoginServlet被访问了doPost");
         String username = req.getParameter("username");

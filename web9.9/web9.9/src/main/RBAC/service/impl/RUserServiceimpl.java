@@ -21,13 +21,30 @@ public class RUserServiceImpl implements RUserService {
     }
 
     @Override
-    public void addUser(String username) {
+    public Map addUser(RUser rUser) {
+        Map result = new HashMap();
+        // 验证设置的账号密码是否为空
+        if(rUser.getUsername() == null || rUser.getPassword() == null) {
 
+            result.put("name", rUser.getUsername());
+            result.put("status", 20200);
+        } else{
+            result.put("name", null);
+            result.put("status", 20401);
+        }
+        if(rUserDAO.checkUsername(rUser.getUsername()).get("staus") == (Integer)20200) {
+            result.put("name", rUserDAO.checkUsername(rUser.getUsername()).get("name"));
+            result.put("status", 20200)
+        } else {
+            result.put("name", null);
+            result.put("status", 20402);
+        }
+        return result;
     }
 
     @Override
-    public void deleteUser(String username) {
-
+    public boolean deleteUser(String username) {
+        return true;
 
     }
 
