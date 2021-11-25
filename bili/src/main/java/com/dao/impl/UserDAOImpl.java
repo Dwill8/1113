@@ -2,6 +2,7 @@ package com.dao.impl;
 
 import com.bean.User;
 import com.dao.UserDAO;
+import com.utils.JDBCUtils;
 import com.utils.PBKDF2;
 
 import java.sql.Connection;
@@ -37,7 +38,7 @@ public class UserDAOImpl implements UserDAO {
         try {
             String salt = PBKDF2.getSalt(); //新增一列存入到数据库里
             String pbkdf2Password = PBKDF2.getPBKDF2(password, salt);
-            pstmt = conn.prepareStatement("insert into student(username, password, salt, PBKDF2) values(?,?,?,?)"); //注册其他信息
+            pstmt = conn.prepareStatement("insert into user(username, password, salt, PBKDF2) values(?,?,?,?)"); //注册其他信息
             pstmt.setString(1, username);
             pstmt.setString(2, password);
             pstmt.setString(3, salt);
@@ -53,11 +54,14 @@ public class UserDAOImpl implements UserDAO {
         }
     }
 
+
+
+
     public Map checkLogin(String username, String password) {
         Map result = new HashMap();
         // 验证用户名密码
         try {
-            pstmt = conn.prepareStatement("select username, password, salt, PBKDF2 from student where username = ?");
+            pstmt = conn.prepareStatement("select username, password, salt, PBKDF2 from user where username = ?");
             pstmt.setString(1, username);
             // 设置SQL语句参数
 
@@ -92,7 +96,7 @@ public class UserDAOImpl implements UserDAO {
         Map result = new HashMap();
         // 验证用户名密码
         try {
-            pstmt = conn.prepareStatement("select * from student where 'name'= ?");
+            pstmt = conn.prepareStatement("select * from user where 'username'= ?");
             // 设置SQL语句参数
             pstmt.setString(1, name);
             ResultSet rs = pstmt.executeQuery();

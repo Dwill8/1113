@@ -1,12 +1,16 @@
 package com.bean;
 
+import java.util.Date;
+
 public class User {
     private Integer id;
     private String username;
     private String password;
-    private String name;
-    private String gender;
-    private String updatedTime;
+    private Gender gender;
+    private String email;
+    private String portrait;
+    private Date updatedTime;
+    private Date createdTime;
     private String status;
 
     public Integer getId() {
@@ -33,28 +37,44 @@ public class User {
         this.password = password;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 
-    public String getUpdatedTime() {
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPortrait() {
+        return portrait;
+    }
+
+    public void setPortrait(String portrait) {
+        this.portrait = portrait;
+    }
+
+    public Date getUpdatedTime() {
         return updatedTime;
     }
 
-    public void setUpdatedTime(String updatedTime) {
+    public void setUpdatedTime(Date updatedTime) {
         this.updatedTime = updatedTime;
+    }
+
+    public Date getCreatedTime() {
+        return createdTime;
+    }
+
+    public void setCreatedTime(Date createdTime) {
+        this.createdTime = createdTime;
     }
 
     public String getStatus() {
@@ -65,13 +85,15 @@ public class User {
         this.status = status;
     }
 
-    public User(Integer id, String username, String password, String name, String gender, String updatedTime, String status) {
+    public User(Integer id, String username, String password, Gender gender, String email, String portrait, Date updatedTime, Date createdTime, String status) {
         this.id = id;
         this.username = username;
         this.password = password;
-        this.name = name;
         this.gender = gender;
+        this.email = email;
+        this.portrait = portrait;
         this.updatedTime = updatedTime;
+        this.createdTime = createdTime;
         this.status = status;
     }
 

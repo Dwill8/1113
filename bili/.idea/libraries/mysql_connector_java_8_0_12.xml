@@ -2,7 +2,6 @@
   <library name="mysql-connector-java-8.0.12">
     <CLASSES>
       <root url="jar://$MAVEN_REPOSITORY$/mysql/mysql-connector-java/8.0.12/mysql-connector-java-8.0.12.jar!/" />
-      <root url="jar://D:/tomcat/apache-tomcat-9.0.52/lib/servlet-api.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

@@ -1,5 +1,6 @@
 package com.servlet;
 
+import com.bean.Gender;
 import com.bean.User;
 import com.service.UserService;
 import com.service.impl.UserServiceImpl;
@@ -27,7 +28,7 @@ public class LoginServlet extends HttpServlet {
         String password = req.getParameter("password");
 
         // 调用userService.login()登录处理业务
-        Map loginUser = userService.login(new User(null,username,password,null,null,null,null));
+        Map loginUser = userService.login(new User(null,username,password,null,null,null,null,null,null));
         if(loginUser.get("status").equals(10200)){
             //登陆成功，跳转到登录成功页面
             //保存用户登录之后的信息到session域中

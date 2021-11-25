@@ -1,5 +1,6 @@
 package com.servlet;
 
+import com.bean.Gender;
 import com.bean.User;
 import com.service.UserService;
 import com.service.impl.UserServiceImpl;
@@ -19,8 +20,9 @@ public class RegistServlet extends HttpServlet {
         //获取请求参数
         String username = req.getParameter("username");
         String password = req.getParameter("password");
-        String name = req.getParameter("name");
-        String gender = req.getParameter("gender");
+        // Gender gender = req.getParameter("gender");
+        String email = req.getParameter("email");
+
 
         //检查用户名是否可用
         if(userService.existUsername(username)){ //不可用
@@ -30,7 +32,7 @@ public class RegistServlet extends HttpServlet {
         }else{ //可用
             System.out.println("用户名可用，保存至数据库");
             //调用UserService保存到数据库
-            userService.registerUser(new User(null,username,password,name,gender,null,null));
+            userService.registerUser(new User(null,username,password,null,email,null,null,null,null));
             //跳到注册成功页面
             req.getRequestDispatcher("web/pages/RegistSuccess.html").forward(req,resp);
         }
