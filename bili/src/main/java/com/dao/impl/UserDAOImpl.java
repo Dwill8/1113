@@ -8,6 +8,7 @@ import com.utils.PBKDF2;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,6 +53,50 @@ public class UserDAOImpl implements UserDAO {
             return false;
 
         }
+    }
+
+    @Override
+    public Integer queryFollowerAmount(int id) {
+        Integer followerAmount = null;
+        try {
+            pstmt = conn.prepareStatement("select count(*) from follow where follower_id = ?");
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            while(rs.next()) {
+                followerAmount = rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return followerAmount;
+    }
+
+    @Override
+    public Integer queryFollowedAmount(int id) {
+        Integer followedAmount = null;
+        try {
+            pstmt = conn.prepareStatement("select count(*) from follow where followed_id = ?");
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            while(rs.next()) {
+                followedAmount = rs.getInt(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return followedAmount;
+    }
+
+    @Override
+    public Integer follow(int id, int followId) {
+        return 0;
+    }
+
+    @Override
+    public Integer unfollow(int id, int followId) {
+        return 0;
     }
 
 

@@ -3,7 +3,7 @@ package com.bean;
 import java.util.HashMap;
 
 public enum Gender {
-    MALE("male", 1),FAMALE("female", 2);
+    MALE("male", 1),FEMALE("female", 2);
     private Gender(String key, Integer value){
         this.key = key;
         this.value = value;

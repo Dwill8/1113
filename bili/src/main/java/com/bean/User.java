@@ -6,12 +6,14 @@ public class User {
     private Integer id;
     private String username;
     private String password;
-    private Gender gender;
+    private String gender;
     private String email;
     private String portrait;
     private Date updatedTime;
     private Date createdTime;
     private String status;
+    private Integer followerCount; //粉丝数
+    private Integer followedCount; //关注数
 
     public Integer getId() {
         return id;
@@ -37,11 +39,11 @@ public class User {
         this.password = password;
     }
 
-    public Gender getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(Gender gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
@@ -85,7 +87,23 @@ public class User {
         this.status = status;
     }
 
-    public User(Integer id, String username, String password, Gender gender, String email, String portrait, Date updatedTime, Date createdTime, String status) {
+    public Integer getFollowerCount() {
+        return followerCount;
+    }
+
+    public void setFollowerCount(Integer followerCount) {
+        this.followerCount = followerCount;
+    }
+
+    public Integer getFollowedCount() {
+        return followedCount;
+    }
+
+    public void setFollowedCount(Integer followedCount) {
+        this.followedCount = followedCount;
+    }
+
+    public User(Integer id, String username, String password, String gender, String email, String portrait, Date updatedTime, Date createdTime, String status, int followerCount, int followedCount) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -95,6 +113,8 @@ public class User {
         this.updatedTime = updatedTime;
         this.createdTime = createdTime;
         this.status = status;
+        this.followerCount = followerCount;
+        this.followedCount = followedCount;
     }
 
     public User() {}

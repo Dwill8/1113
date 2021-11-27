@@ -13,5 +13,17 @@ public interface UserDAO {
     //保存用户信息
     public boolean saveUser(User user);
 
+    //查询粉丝数
+    public Integer queryFollowerAmount(int id);
+
+    //查询关注数
+    public Integer queryFollowedAmount(int id);
+
+    //增加关注
+    public Integer follow(int id, int followId);
+
+    //取消关注
+    public Integer unfollow(int id, int followId);
+
 }
 

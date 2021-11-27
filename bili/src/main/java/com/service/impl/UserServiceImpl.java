@@ -32,4 +32,24 @@ public class UserServiceImpl implements UserService {
             return true;
         }
     }
+
+    @Override
+    public int queryFollowerAmount(int id) {
+        return 0;
+    }
+
+    @Override
+    public int queryFollowedAmount(int id) {
+        return 0;
+    }
+
+    @Override
+    public int follow(int id, int followId) {
+        return 0;
+    }
+
+    @Override
+    public int unfollow(int id, int followId) {
+        return 0;
+    }
 }
