@@ -9,7 +9,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class UserDAOImpl implements UserDAO {
@@ -48,15 +50,15 @@ public class UserDAOImpl implements UserDAO {
             return true;
 
         } catch (Exception e) {
-
             e.printStackTrace();
             return false;
 
         }
     }
 
+    // 查询粉丝数量
     @Override
-    public Integer queryFollowerAmount(int id) {
+    public Integer queryFollowerAmount(Integer id) {
         Integer followerAmount = null;
         try {
             pstmt = conn.prepareStatement("select count(*) from follow where follower_id = ?");
@@ -72,14 +74,15 @@ public class UserDAOImpl implements UserDAO {
         return followerAmount;
     }
 
+    // 查询关注数量
     @Override
-    public Integer queryFollowedAmount(int id) {
+    public Integer queryFollowedAmount(Integer id) {
         Integer followedAmount = null;
         try {
             pstmt = conn.prepareStatement("select count(*) from follow where followed_id = ?");
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
-            while(rs.next()) {
+            if (rs.next()) {
                 followedAmount = rs.getInt(1);
             }
 
@@ -89,14 +92,85 @@ public class UserDAOImpl implements UserDAO {
         return followedAmount;
     }
 
+    // 我的粉丝
     @Override
-    public Integer follow(int id, int followId) {
-        return 0;
+    public List<User> queryFollowerList(Integer id) {
+        List<User> list = new ArrayList<User>();
+        try {
+            pstmt = conn.prepareStatement("SELECT * from `user` WHERE uid in (SELECT follower_id FROM follow WHERE followed_id = ?)");
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                User user = new User();
+                user.setId(rs.getInt(1));
+                user.setUsername(rs.getString(2));
+                user.setGender(rs.getString(6));
+                // user.setEmail(rs.getString(7));
+                user.setPortrait(rs.getString(8));
+                // user.setUpdatedTime(rs.getTimestamp(9));
+                // user.setCreatedTime(rs.getTimestamp(10));
+                user.setStatus(rs.getString(11));
+                list.add(user);
+            }
+            return list;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return list;
+        }
+    }
+
+    // 我关注的用户
+    @Override
+    public List<User> queryFollowedList(Integer id) {
+        List<User> list = new ArrayList<User>();
+        try {
+            pstmt = conn.prepareStatement("SELECT * from `user` WHERE uid in (SELECT followed_id FROM follow WHERE follower_id = ?)");
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                User user = new User();
+                user.setId(rs.getInt(1));
+                user.setUsername(rs.getString(2));
+                user.setGender(rs.getString(6));
+                // user.setEmail(rs.getString(7));
+                user.setPortrait(rs.getString(8));
+                // user.setUpdatedTime(rs.getTimestamp(9));
+                // user.setCreatedTime(rs.getTimestamp(10));
+                user.setStatus(rs.getString(11));
+                list.add(user);
+            }
+                return list;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return list;
+        }
     }
 
     @Override
-    public Integer unfollow(int id, int followId) {
-        return 0;
+    public boolean follow(Integer id, Integer followId) {
+        try {
+            pstmt = conn.prepareStatement("insert into follow (follower_id, followed_id) values (?,?)");
+            pstmt.setInt(1, id);
+            pstmt.setInt(2, followId);
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
+    @Override
+    public boolean unfollow(Integer id, Integer followId) {
+        try {
+            pstmt = conn.prepareStatement("delete from follow where follower_id = ? and  followed_id = ?");
+            pstmt.setInt(1, id);
+            pstmt.setInt(2, followId);
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 
@@ -118,19 +192,19 @@ public class UserDAOImpl implements UserDAO {
                 if(PBKDF2.verify(password, rs.getString(3), rs.getString(4))){
                     User user = new User();
                     user.setUsername(rs.getString(1));
-                    result.put("name", username);
+                    result.put("username", username);
                     result.put("status", 10200);
                 }else{
-                    result.put("name", null);
+                    result.put("username", null);
                     result.put("status", 10400);
                 }
                 //session加到LoginServlet中了
                 // 返回JavaBean对象
             }
-            // 验证失败返回null（记录失败次数）在queryUserByUsernameAndPassword记录
+            // 验证失败返回null
         } catch (Exception e) {
             e.printStackTrace();
-            result.put("name", null);
+            result.put("username", null);
             result.put("status", 10500);
 
         }
@@ -148,16 +222,16 @@ public class UserDAOImpl implements UserDAO {
             // 执行查询，返回结果集
             if (rs.next()) {
 
-                result.put("name", name);
+                result.put("username", name);
                 result.put("status", 20200);
             }else {
-                result.put("name", null);
+                result.put("username", null);
                 result.put("status", 20400);
             }
 
         } catch (Exception e) { // 加异常类型
             e.printStackTrace();
-            result.put("name", null);
+            result.put("username", null);
             result.put("status", 20500);
         }
         return result;

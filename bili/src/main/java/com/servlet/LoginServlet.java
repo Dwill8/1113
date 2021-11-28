@@ -28,11 +28,12 @@ public class LoginServlet extends HttpServlet {
         String password = req.getParameter("password");
 
         // 调用userService.login()登录处理业务
-        Map loginUser = userService.login(new User(null,username,password,null,null,null,null,null,null));
+        Map loginUser = userService.login(new User(null,username,password,null,null,null,null,null,null,0,0));
         if(loginUser.get("status").equals(10200)){
-            //登陆成功，跳转到登录成功页面
             //保存用户登录之后的信息到session域中
-            req.getSession().setAttribute("user", loginUser.get("name"));
+            req.getSession().setAttribute("username", loginUser.get("username"));
+            req.getSession().setAttribute("uid", loginUser);
+            //登陆成功，跳转到登录成功页面
             System.out.println("登录成功");
             req.getRequestDispatcher("web/pages/LoginSuccess.html").forward(req, resp);
         }else {

@@ -5,6 +5,8 @@ import com.dao.UserDAO;
 import com.dao.impl.UserDAOImpl;
 import com.service.UserService;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class UserServiceImpl implements UserService {
@@ -34,22 +36,80 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int queryFollowerAmount(int id) {
-        return 0;
+    public Map queryFollowerAmount(Integer id) {
+        Map result = new HashMap();
+        if(userDAO.queryFollowerAmount(id) == null) {
+            result.put("amount", null);
+            result.put("status", 30400);
+        } else {
+            result.put("amount", userDAO.queryFollowerAmount(id));
+            result.put("status", 30200);
+        }
+        return result;
     }
 
     @Override
-    public int queryFollowedAmount(int id) {
-        return 0;
+    public Map queryFollowedAmount(Integer id) {
+        Map result = new HashMap();
+        if(userDAO.queryFollowedAmount(id) == null) {
+            result.put("amount", null);
+            result.put("status", 31400);
+        } else {
+            result.put("amount", userDAO.queryFollowedAmount(id));
+            result.put("status", 31200);
+        }
+        return result;
     }
 
     @Override
-    public int follow(int id, int followId) {
-        return 0;
+    public Map queryFollowerList(Integer id) {
+        Map result = new HashMap();
+        if(userDAO.queryFollowerList(id) == null) { //问题：此处粉丝为0列表是null的情况怎么办
+            result.put("list", null);
+            result.put("status", 32400);
+        } else {
+            result.put("list", userDAO.queryFollowerList(id));
+            result.put("status", 32200);
+        }
+        return result;
     }
 
     @Override
-    public int unfollow(int id, int followId) {
-        return 0;
+    public Map queryFollowedList(Integer id) {
+        Map result = new HashMap();
+        if(userDAO.queryFollowedList(id) == null) { //问题：此处粉丝为0列表是null的情况怎么办
+            result.put("list", null);
+            result.put("status", 33400);
+        } else {
+            result.put("list", userDAO.queryFollowedList(id));
+            result.put("status", 33200);
+        }
+        return result;
+    }
+
+    @Override
+    public Map follow(Integer id, Integer followId) {
+        Map result = new HashMap();
+        if(!userDAO.follow(id, followId)){
+            result.put("follow_id", null);
+            result.put("status", 34400);
+        } else {
+            result.put("follow_id", followId);
+            result.put("status", 34200);
+        }
+        return result;
+    }
+
+    @Override
+    public Map unfollow(Integer id, Integer unfollowId) {
+        Map result = new HashMap();
+        if(!userDAO.follow(id, unfollowId)){
+            result.put("unfollow_id", null);
+            result.put("status", 35400);
+        } else {
+            result.put("unfollow_id", unfollowId);
+            result.put("status", 35200);
+        }
+        return result;
     }
 }
