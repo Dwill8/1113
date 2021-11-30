@@ -2,12 +2,18 @@
 <!--<!DOCTYPE web-app PUBLIC-->
 <!-- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"-->
 <!-- "http://java.sun.com/dtd/web-app_2_3.dtd" >-->
+
 <web-app version="4.0" >
   <display-name>Archetype Created Web Application</display-name>
 
-
-<web-app>
-  <display-name>Archetype Created Web Application</display-name>
+  <servlet>
+    <servlet-name>Test</servlet-name>
+    <servlet-class>com.servlet.TestServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Test</servlet-name>
+    <url-pattern>/test</url-pattern>
+  </servlet-mapping>
 
   <servlet>
     <servlet-name>RegistServlet</servlet-name>
@@ -29,8 +35,22 @@
 
   <servlet>
     <servlet-name>VerifyCodeServlet</servlet-name>
-    <servlet-class>/verify/regist.do</servlet-class>
+    <servlet-class>com.servlet.VerifyCodeServlet</servlet-class>
   </servlet>
+  <servlet-mapping>
+    <servlet-name>VerifyCodeServlet</servlet-name>
+    <url-pattern>/verify/regist.do</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+    <servlet-name>FollowServlet</servlet-name>
+    <servlet-class>com.servlet.FollowServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FollowServlet</servlet-name>
+    <url-pattern>/FollowServelt</url-pattern>
+  </servlet-mapping>
 
 
 </web-app>

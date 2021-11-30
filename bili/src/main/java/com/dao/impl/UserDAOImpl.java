@@ -27,7 +27,6 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public Map queryUserByUsernameAndPassword(String username, String password) {
-        int loginCheckCount = 0;
         return checkLogin(username, password);
     }
 
@@ -54,6 +53,27 @@ public class UserDAOImpl implements UserDAO {
             return false;
 
         }
+    }
+
+    @Override
+    public User findUserByName(String username) {
+        User user = new User();
+        try{
+            pstmt = conn.prepareStatement("select * from user where username = ?");
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                user.setId(rs.getInt(1));
+                user.setUsername(username);
+                user.setGender(rs.getString(6));
+                user.setEmail(rs.getString(7));
+                user.setPortrait(rs.getString(8));
+                user.setPermission(rs.getString(9));
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        return user;
     }
 
     // 查询粉丝数量
@@ -173,8 +193,31 @@ public class UserDAOImpl implements UserDAO {
         }
     }
 
-
-
+    @Override
+    public Map checkFollow(Integer id, Integer followId) {
+        Map result = new HashMap();
+        try{
+            pstmt = conn.prepareStatement("select * from follow where follower_id = ? and followed_id = ?");
+            pstmt.setInt(1, id);
+            pstmt.setInt(2, followId);
+            ResultSet rs = pstmt.executeQuery();
+            if(rs.next()) {
+                result.put("follower_id", id);
+                result.put("followed_id", followId);
+                result.put("status", 1);
+            } else {
+                result.put("follower_id", id);
+                result.put("followed_id", followId);
+                result.put("status", 0);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            result.put("follower_id", id);
+            result.put("followed_id", followId);
+            result.put("status", 2);
+        }
+        return result;
+    }
 
     public Map checkLogin(String username, String password) {
         Map result = new HashMap();

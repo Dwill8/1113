@@ -16,6 +16,9 @@ public interface UserDAO {
     //保存用户信息
     public boolean saveUser(User user);
 
+    // 通过用户名查询用户信息
+    public User findUserByName(String username);
+
     //查询粉丝数
     public Integer queryFollowerAmount(Integer id);
 
@@ -33,6 +36,9 @@ public interface UserDAO {
 
     //取消关注
     public boolean unfollow(Integer id, Integer followId);
+
+    // 检查是否已关注
+    public Map checkFollow(Integer id, Integer followId);
 
 }
 

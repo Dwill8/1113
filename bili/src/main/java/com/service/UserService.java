@@ -15,6 +15,9 @@ public interface UserService {
     //检查用户名是否可用
     public boolean existUsername(String username);
 
+    // 通过用户名查询用户信息
+    public User findUserByName(String username);
+
     //查询粉丝数
     public Map queryFollowerAmount(Integer id);
 
@@ -22,10 +25,10 @@ public interface UserService {
     public Map queryFollowedAmount(Integer id);
 
     // 查询粉丝列表
-    public Map queryFollowerList(Integer id);
+    public List<User> queryFollowerList(Integer id);
 
     //查询关注列表
-    public Map queryFollowedList(Integer id);
+    public List<User> queryFollowedList(Integer id);
 
     //增加关注
     public Map follow(Integer id, Integer followId);

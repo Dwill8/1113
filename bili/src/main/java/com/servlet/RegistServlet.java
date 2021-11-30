@@ -32,7 +32,7 @@ public class RegistServlet extends HttpServlet {
         }else{ //可用
             System.out.println("用户名可用，保存至数据库");
             //调用UserService保存到数据库
-            userService.registerUser(new User(null,username,password,gender,email,null,null,null,null,0,0));
+            userService.registerUser(new User(null,username,password,gender,email,null,null,null,null,0,0,null));
             //跳到注册成功页面
             req.getRequestDispatcher("web/pages/RegistSuccess.html").forward(req,resp);
         }
