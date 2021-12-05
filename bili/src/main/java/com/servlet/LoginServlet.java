@@ -1,6 +1,5 @@
 package com.servlet;
 
-import com.bean.Gender;
 import com.bean.User;
 import com.service.UserService;
 import com.service.impl.UserServiceImpl;
@@ -9,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Map;
 
@@ -35,7 +35,9 @@ public class LoginServlet extends HttpServlet {
         if(loginUser.get("status").equals(10200)){
             user = userService.findUserByName(username);
             //保存用户登录之后的信息到session域中
+            HttpSession session = req.getSession();
             req.getSession().setAttribute("user_id", user.getId());
+            System.out.println((Integer)req.getSession().getAttribute("user_id"));
             req.getSession().setAttribute("username", loginUser.get("username"));
             req.getSession().setAttribute("portrait", user.getPortrait());
             req.getSession().setAttribute("permission", user.getPermission());

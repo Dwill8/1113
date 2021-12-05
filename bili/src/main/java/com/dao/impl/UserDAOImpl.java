@@ -59,16 +59,17 @@ public class UserDAOImpl implements UserDAO {
     public User findUserByName(String username) {
         User user = new User();
         try{
-            pstmt = conn.prepareStatement("select * from user where username = ?");
+            pstmt = conn.prepareStatement("select uid, gender, email, portrait, permission, status from user where username = ?");
             pstmt.setString(1, username);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 user.setId(rs.getInt(1));
                 user.setUsername(username);
-                user.setGender(rs.getString(6));
-                user.setEmail(rs.getString(7));
-                user.setPortrait(rs.getString(8));
-                user.setPermission(rs.getString(9));
+                user.setGender(rs.getString(2));
+                user.setEmail(rs.getString(3));
+                user.setPortrait(rs.getString(4));
+                user.setPermission(rs.getString(5));
+                user.setStatus(rs.getString(6));
             }
         } catch (SQLException e){
             e.printStackTrace();
@@ -79,12 +80,12 @@ public class UserDAOImpl implements UserDAO {
     // 查询粉丝数量
     @Override
     public Integer queryFollowerAmount(Integer id) {
-        Integer followerAmount = null;
+        Integer followerAmount = 0;
         try {
             pstmt = conn.prepareStatement("select count(*) from follow where follower_id = ?");
-            pstmt.setInt(1, id);
-            ResultSet rs = pstmt.executeQuery();
-            while(rs.next()) {
+                pstmt.setInt(1, id);
+                ResultSet rs = pstmt.executeQuery();
+                while(rs.next()) {
                 followerAmount = rs.getInt(1);
             }
 
@@ -117,19 +118,16 @@ public class UserDAOImpl implements UserDAO {
     public List<User> queryFollowerList(Integer id) {
         List<User> list = new ArrayList<User>();
         try {
-            pstmt = conn.prepareStatement("SELECT * from `user` WHERE uid in (SELECT follower_id FROM follow WHERE followed_id = ?)");
+            pstmt = conn.prepareStatement("SELECT uid, username, gender, portrait, status from `user` WHERE uid in (SELECT follower_id FROM follow WHERE followed_id = ?)");
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 User user = new User();
                 user.setId(rs.getInt(1));
                 user.setUsername(rs.getString(2));
-                user.setGender(rs.getString(6));
-                // user.setEmail(rs.getString(7));
-                user.setPortrait(rs.getString(8));
-                // user.setUpdatedTime(rs.getTimestamp(9));
-                // user.setCreatedTime(rs.getTimestamp(10));
-                user.setStatus(rs.getString(11));
+                user.setGender(rs.getString(3));
+                user.setPortrait(rs.getString(4));
+                user.setStatus(rs.getString(5));
                 list.add(user);
             }
             return list;
@@ -144,19 +142,16 @@ public class UserDAOImpl implements UserDAO {
     public List<User> queryFollowedList(Integer id) {
         List<User> list = new ArrayList<User>();
         try {
-            pstmt = conn.prepareStatement("SELECT * from `user` WHERE uid in (SELECT followed_id FROM follow WHERE follower_id = ?)");
+            pstmt = conn.prepareStatement("SELECT uid, username, gender, portrait, status from `user` WHERE uid in (SELECT followed_id FROM follow WHERE follower_id = ?)");
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 User user = new User();
                 user.setId(rs.getInt(1));
                 user.setUsername(rs.getString(2));
-                user.setGender(rs.getString(6));
-                // user.setEmail(rs.getString(7));
-                user.setPortrait(rs.getString(8));
-                // user.setUpdatedTime(rs.getTimestamp(9));
-                // user.setCreatedTime(rs.getTimestamp(10));
-                user.setStatus(rs.getString(11));
+                user.setGender(rs.getString(3));
+                user.setPortrait(rs.getString(4));
+                user.setStatus(rs.getString(5));
                 list.add(user);
             }
                 return list;
@@ -169,26 +164,58 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public boolean follow(Integer id, Integer followId) {
         try {
+            conn.setAutoCommit(false);
+            // 关注插入关注表
             pstmt = conn.prepareStatement("insert into follow (follower_id, followed_id) values (?,?)");
             pstmt.setInt(1, id);
             pstmt.setInt(2, followId);
+            pstmt.executeUpdate(); // 返回数据库储存成功否
+            // 更新被关注人粉丝数
+            pstmt = conn.prepareStatement("UPDATE `user` SET follower_amount = follower_amount+1 WHERE uid=?");
+            pstmt.setInt(1,followId);
+            pstmt.executeUpdate();
+            // 更新关注人关注数
+            pstmt = conn.prepareStatement("UPDATE `user` SET followed_amount = follower_amount+1 WHERE uid=?");
+            pstmt.setInt(1,id);
+            pstmt.executeUpdate();
+            conn.commit();
             return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            try {
+                conn.rollback();
+            } catch (SQLException es) {
+                es.printStackTrace();
+            }
             return false;
         }
-
     }
 
     @Override
     public boolean unfollow(Integer id, Integer followId) {
+        // trigger
         try {
+            conn.setAutoCommit(false);
+            // 从关注表删除
             pstmt = conn.prepareStatement("delete from follow where follower_id = ? and  followed_id = ?");
             pstmt.setInt(1, id);
             pstmt.setInt(2, followId);
+            pstmt.executeUpdate(); // 返回数据库储存成功否
+            // 更新被关注人粉丝数
+            pstmt = conn.prepareStatement("UPDATE `user` SET follower_amount = follower_amount-1 WHERE uid=?");
+            pstmt.setInt(1,followId);
+            pstmt.executeUpdate();
+            // 更新关注人关注数
+            pstmt = conn.prepareStatement("UPDATE `user` SET followed_amount = follower_amount-1 WHERE uid=?");
+            pstmt.setInt(1,id);
+            pstmt.executeUpdate();
+            conn.commit();
             return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            try {
+                conn.rollback();
+            } catch (SQLException es) {
+                es.printStackTrace();
+            }
             return false;
         }
     }
@@ -258,7 +285,7 @@ public class UserDAOImpl implements UserDAO {
         Map result = new HashMap();
         // 验证用户名密码
         try {
-            pstmt = conn.prepareStatement("select * from user where 'username'= ?");
+            pstmt = conn.prepareStatement("select uid from user where 'username'= ?");
             // 设置SQL语句参数
             pstmt.setString(1, name);
             ResultSet rs = pstmt.executeQuery();

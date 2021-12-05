@@ -1,6 +1,5 @@
 package com.servlet;
 
-import com.bean.Gender;
 import com.bean.User;
 import com.service.UserService;
 import com.service.impl.UserServiceImpl;

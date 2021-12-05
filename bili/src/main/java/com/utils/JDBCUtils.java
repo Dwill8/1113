@@ -1,7 +1,6 @@
 package com.utils;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.*;
 
 public class JDBCUtils {
     public static Connection conn;
@@ -12,7 +11,7 @@ public class JDBCUtils {
             // 加载注册SQLSever的JDBC驱动
             Class.forName("com.mysql.cj.jdbc.Driver");
             // 编写链接字符串，创建并且获取链接
-            conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/student_selection?serverTimezone=UTC","root","071231");
+            conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/bili?serverTimezone=UTC","root","071231");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -36,3 +35,5 @@ public class JDBCUtils {
         }
     }
 }
+
+

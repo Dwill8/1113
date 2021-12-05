@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
     public Map queryFollowerAmount(Integer id) {
         Map result = new HashMap();
         if(userDAO.queryFollowerAmount(id) == null) {
-            result.put("amount", null);
+            result.put("amount", 0);
             result.put("status", 30400);
         } else {
             result.put("amount", userDAO.queryFollowerAmount(id));
