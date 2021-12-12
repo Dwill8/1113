@@ -250,7 +250,7 @@ public class UserDAOImpl implements UserDAO {
         Map result = new HashMap();
         // 验证用户名密码
         try {
-            pstmt = conn.prepareStatement("select username, password, salt, PBKDF2 from user where username = ?");
+            pstmt = conn.prepareStatement("select username, password, salt, PBKDF2 from user where username = ?");//pwd不用
             pstmt.setString(1, username);
             // 设置SQL语句参数
 

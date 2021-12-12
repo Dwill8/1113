@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>视频上传页面</title>
+    <base href="http://localhost:8080/bili0_war_exploded/">
+</head>
+<body>
+<div id="container" style="width: 1800px">
+    <div id="header" style="background-color:#FFA500">
+        <h1>视频站</h1>
+    </div>
+</div>
+<hr />
+
+<form action="/uploadServlet" enctype="multipart/form-data" method="post">
+    <h2>视频上传</h2>
+<!--    <input type="text" name="username">-->
+<!--    <input type="password" name="pwd">-->
+    <input type="text" name="video_title" class="form-control" placeholder="视频标题"><br>
+    <input type="file" name="video"><br>
+    <input type="submit">
+</form>
+
+</body>
+</html>
