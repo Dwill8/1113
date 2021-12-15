@@ -8,7 +8,7 @@ public interface VideoDAO {
     public Map checkReward(Integer uid, Integer vid);
 
     //检查是否还有币
-    public int checkCoinNum(Integer uid);
+//    public int checkCoinNum(Integer uid);
 
     // 投币
     public boolean rewardCoin(Integer uid, Integer vid);

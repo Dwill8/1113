@@ -42,57 +42,54 @@ public class VideoDAOImpl implements VideoDAO {
         return result;
     }
 
-    @Override
-    public int checkCoinNum(Integer uid) {
-        int coinNum = -1;
-        try {
-            pstmt = conn.prepareStatement("select coin from user where uid=?");
-            pstmt.setInt(1, uid);
-            ResultSet rs = pstmt.executeQuery();
-
-            if(rs.next()) {
-                coinNum = rs.getInt(1);
-            }
-
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
-        return coinNum;
-    }
+//    @Override
+//    public int checkCoinNum(Integer uid) {
+//        int coinNum = -1;
+//        try {
+//            pstmt = conn.prepareStatement("select coin from user where uid=?");
+//            pstmt.setInt(1, uid);
+//            ResultSet rs = pstmt.executeQuery();
+//
+//            if(rs.next()) {
+//                coinNum = rs.getInt(1);
+//            }
+//
+//        } catch (SQLException e){
+//            e.printStackTrace();
+//        }
+//        return coinNum;
+//    }
 
     @Override
     public boolean rewardCoin(Integer uid, Integer vid) {
         try {
             conn.setAutoCommit(false);
-            // 投币动作插入投币表
-            pstmt = conn.prepareStatement("insert into follow (uid, vid) values (?,?)");
-            pstmt.setInt(1, uid);
-            pstmt.setInt(2, vid);
-            pstmt.executeUpdate(); // 返回数据库储存成功否
-
-            // 更新视频币数
-            pstmt = conn.prepareStatement("UPDATE video SET coin=coin+1 WHERE vid=?");
-            pstmt.setInt(1, vid);
-            pstmt.executeUpdate();
-
-            // 更新关注人币数
+            // 更新关注人币数（Unsigned,更新币数不成功不执行返回0）
             pstmt = conn.prepareStatement("UPDATE `user` SET coin=coin-1 WHERE uid=?");
             pstmt.setInt(1, uid);
-            pstmt.executeUpdate();
-
-            // 更新视频账号币数
-            pstmt = conn.prepareStatement("select uid from video where vid=?");
-            pstmt.setInt(1, vid);
             ResultSet rs = pstmt.executeQuery();
-            if(rs.next()) {
-                // 通过vid获取其账号的uid
-                int vOwnerId = rs.getInt(1);
-                pstmt = conn.prepareStatement("UPDATE user SET coin=coin+1 WHERE uid=?");
-                pstmt.setInt(1, vOwnerId);
-                pstmt.executeUpdate();
+            while(rs.next()) {
+                if(rs.getInt(1) == 1) {
+                    // 投币动作插入投币表
+                    pstmt = conn.prepareStatement("insert into coin (coin_from,coin_to) values (?,?)");
+                    pstmt.setInt(1, uid);
+                    pstmt.setInt(2, vid);
+                    pstmt.executeUpdate(); // 返回数据库储存成功否
+
+                    // 更新视频币数
+                    pstmt = conn.prepareStatement("UPDATE video SET coin=coin+1 WHERE vid=?");
+                    pstmt.setInt(1, vid);
+                    pstmt.executeUpdate();
+
+                    // 更新视频账号币数
+                    pstmt = conn.prepareStatement("UPDATE user SET coin=coin+1 WHERE uid=(select uid from video as a where vid=?);");
+                    pstmt.setInt(1, vid);
+                    pstmt.executeUpdate();
+                    conn.commit();
+                    //用不用else rollback? 我觉得不用因为没有更新
+                }
             }
-            conn.commit();
-            return true;
+            return rs.getInt(1) == 1;
         } catch (Exception e) {
             try {
                 conn.rollback();
