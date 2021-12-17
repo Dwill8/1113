@@ -1,5 +1,7 @@
 package com.service;
 
+import com.bean.Video;
+
 import java.util.List;
 import java.util.Map;
 
@@ -12,5 +14,7 @@ public interface VideoService {
 
     // 弹幕生成
     public List<String> bulletScreenList(Integer vid);
+
+    public Map saveVideo(Video video);
 
 }

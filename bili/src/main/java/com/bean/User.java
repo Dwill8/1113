@@ -14,7 +14,7 @@ public class User {
     private String status;
     private Integer followerCount; //粉丝数
     private Integer followedCount; //关注数
-    private String permission; //权限
+    private String role; //角色
 
     public Integer getId() {
         return id;
@@ -104,15 +104,15 @@ public class User {
         this.followedCount = followedCount;
     }
 
-    public String getPermission() {
-        return permission;
+    public String getRole() {
+        return role;
     }
 
-    public void setPermission(String permission) {
-        this.permission = permission;
+    public void setRole(String role) {
+        this.role = role;
     }
 
-    public User(Integer id, String username, String password, String gender, String email, String portrait, Date updatedTime, Date createdTime, String status, int followerCount, int followedCount, String permission) {
+    public User(Integer id, String username, String password, String gender, String email, String portrait, Date updatedTime, Date createdTime, String status, int followerCount, int followedCount, String role) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -124,7 +124,7 @@ public class User {
         this.status = status;
         this.followerCount = followerCount;
         this.followedCount = followedCount;
-        this.permission = permission;
+        this.role = role;
     }
 
     public User() {}

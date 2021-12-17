@@ -1,5 +1,7 @@
 package com.dao;
 
+import com.bean.Video;
+
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +23,9 @@ public interface VideoDAO {
 
     // 弹幕生成
     public List<String> bulletScreenList(Integer vid);
+
+    //储存视频信息
+    public boolean saveVideo(Video video);
 
 
 }

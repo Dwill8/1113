@@ -19,12 +19,12 @@ public class FollowServlet extends HttpServlet {
     // private static final long serialVersionUID = 1L;
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("1");
+        System.out.println("doget");
         doPost(request, response);
     }
     public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("2");
+        System.out.println("dopost");
         //获取对应的请求参数
         String method = request.getParameter("method");
         //根据请求参数去调用对应的方法。
@@ -44,9 +44,9 @@ public class FollowServlet extends HttpServlet {
     }
 
     protected void follow(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("3");
+        System.out.println("follow");
         // 获取session里的username
-        System.out.println((Integer)req.getSession().getAttribute("user_id"));
+        System.out.println("user_id:" + (Integer)req.getSession().getAttribute("user_id") + ", follow_id:" + req.getParameter("follow_id"));
         Map map = userService.follow((Integer) req.getSession().getAttribute("user_id"), Integer.valueOf(req.getParameter("follow_id")));
         if (map.get("status").equals(34200)) {
             System.out.println("关注成功");
@@ -58,11 +58,13 @@ public class FollowServlet extends HttpServlet {
     }
 
     protected void unfollow(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("unfollow");
         // 获取session里的username
+        System.out.println("user_id:" + (Integer)req.getSession().getAttribute("user_id") + ", unfollow_id:" + req.getParameter("follow_id"));
         Map map = userService.unfollow((Integer)req.getSession().getAttribute("user_id"), Integer.valueOf(req.getParameter("follow_id")));
-        if(map.get("status").equals(34200)) {
+        if(map.get("status").equals(35200)) {
             System.out.println("取关成功");
-        } else if(map.get("status").equals(34401)) {
+        } else if(map.get("status").equals(35401)) {
             System.out.println("未关注");
         } else {
             System.out.println("取关失败");

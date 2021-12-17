@@ -33,6 +33,7 @@ public class VideoServlet extends HttpServlet {
 
     public void rewardCoin(HttpServletRequest req, HttpServletResponse resp) {
         Map map = videoService.rewardCoin((Integer) req.getSession().getAttribute("user_id"), Integer.valueOf(req.getParameter("vid")));
+        System.out.println("user_id:" + (Integer)req.getSession().getAttribute("user_id") + ", vid:" + req.getParameter("vid"));
         if (map.get("status").equals(34200)) {
             System.out.println("投币成功");
         } else if (map.get("status").equals(34401)) {

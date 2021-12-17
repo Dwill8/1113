@@ -59,7 +59,7 @@ public class UserDAOImpl implements UserDAO {
     public User findUserByName(String username) {
         User user = new User();
         try{
-            pstmt = conn.prepareStatement("select uid, gender, email, portrait, permission, status from user where username = ?");
+            pstmt = conn.prepareStatement("select uid, gender, email, portrait, role, status from user where username = ?");
             pstmt.setString(1, username);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
@@ -68,7 +68,7 @@ public class UserDAOImpl implements UserDAO {
                 user.setGender(rs.getString(2));
                 user.setEmail(rs.getString(3));
                 user.setPortrait(rs.getString(4));
-                user.setPermission(rs.getString(5));
+                user.setRole(rs.getString(5));
                 user.setStatus(rs.getString(6));
             }
         } catch (SQLException e){

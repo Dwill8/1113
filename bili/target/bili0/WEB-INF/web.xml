@@ -50,8 +50,16 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>UploadServlet</servlet-name>
-    <url-pattern>/uploadServlet</url-pattern>
+    <url-pattern>/UploadServlet</url-pattern>
   </servlet-mapping>
 
+  <servlet>
+    <servlet-name>VideoServlet</servlet-name>
+    <servlet-class>com.servlet.VideoServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>VideoServlet</servlet-name>
+    <url-pattern>/videoServlet</url-pattern>
+  </servlet-mapping>
 
 </web-app>
