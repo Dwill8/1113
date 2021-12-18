@@ -34,7 +34,6 @@
     <url-pattern>/verify/registverify</url-pattern>
   </servlet-mapping>
 
-
   <servlet>
     <servlet-name>FollowServlet</servlet-name>
     <servlet-class>com.servlet.FollowServlet</servlet-class>
@@ -60,6 +59,15 @@
   <servlet-mapping>
     <servlet-name>VideoServlet</servlet-name>
     <url-pattern>/videoServlet</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>ImageHandlerServlet</servlet-name>
+    <servlet-class>com.servlet.ImageHandlerServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ImageHandlerServlet</servlet-name>
+    <url-pattern>/ImageHandlerServlet</url-pattern>
   </servlet-mapping>
 
 </web-app>
