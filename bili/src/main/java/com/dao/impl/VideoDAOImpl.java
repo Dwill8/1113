@@ -66,9 +66,9 @@ public class VideoDAOImpl implements VideoDAO {
     @Override
     public boolean rewardCoin(Integer uid, Integer vid) {
         try {
-            // conn.setAutoCommit(false);
+            conn.setAutoCommit(false);
             // 更新关注人币数（Unsigned,更新币数不成功不执行返回0）
-            pstmt = conn.prepareStatement("UPDATE `user` SET coin=coin-1 WHERE uid=?");
+            pstmt = conn.prepareStatement("UPDATE `user` SET coin=coin-1 WHERE uid= ?");
             pstmt.setInt(1, uid);
             int updateValue = pstmt.executeUpdate();
 
@@ -88,32 +88,35 @@ public class VideoDAOImpl implements VideoDAO {
                 pstmt = conn.prepareStatement("UPDATE user SET coin=coin+1 WHERE uid=(select uid from video as a where vid=?);");
                 pstmt.setInt(1, vid);
                 pstmt.executeUpdate();
-                //conn.commit();
+                conn.commit();
+
                 //用不用else rollback? 我觉得不用因为没有更新
             }
             return updateValue == 1;
         } catch (Exception e) {
-//            try {
-//                conn.rollback();
-//            } catch (SQLException es) {
-//                es.printStackTrace();
-//            }
+            try {
+                conn.rollback();
+            } catch (SQLException es) {
+                es.printStackTrace();
+            }
             return false;
         }
     }
 
     @Override
     public boolean saveVideo(Video video) {
+        System.out.println(video.toString());
         try {
             //新增一列存入到数据库里
-            pstmt = conn.prepareStatement("insert into video(vname, vname_origin, vtitle, vportrait, vportrait_small, uid, vurl) values(?,?,?,?,?,?,?)");
+            pstmt = conn.prepareStatement("insert into video(vname, vname_origin, vtitle, vportrait, vportrait_small, uid, coin, vurl) values(?,?,?,?,?,?,?,?)");
             pstmt.setString(1, video.getVideoName());
             pstmt.setString(2, video.getVideoNameOrigin());
-            pstmt.setString(3, video.getVideoTitle());
+            pstmt.setString(3, video.getVideoTitle()); // todo: null
             pstmt.setString(4, video.getVideoPortrait());
             pstmt.setString(5, video.getVideoPortraitSmall());
-            pstmt.setInt(6, video.getUserId());
-            pstmt.setString(7, video.getVideoURL());
+            pstmt.setInt(6,2); // TODO: 2021/12/19 uid 
+            pstmt.setInt(7,0);
+            pstmt.setString(8, video.getVideoURL());
             pstmt.executeUpdate(); // 返回数据库储存成功否
             return true;
 

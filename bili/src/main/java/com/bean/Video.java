@@ -131,6 +131,26 @@ public class Video {
         this.status = status;
     }
 
+    @Override
+    public String toString() {
+        return "Video{" +
+                "videoId=" + videoId +
+                ", videoName='" + videoName + '\'' +
+                ", videoNameOrigin='" + videoNameOrigin + '\'' +
+                ", videoURL='" + videoURL + '\'' +
+                ", videoTitle='" + videoTitle + '\'' +
+                ", videoPortrait='" + videoPortrait + '\'' +
+                ", videoPortraitSmall='" + videoPortraitSmall + '\'' +
+                ", bulletScreen=" + bulletScreen +
+                ", userId=" + userId +
+                ", videoLikedNum=" + videoLikedNum +
+                ", videoForwardNum=" + videoForwardNum +
+                ", coinNum=" + coinNum +
+                ", createdTime=" + createdTime +
+                ", status=" + status +
+                '}';
+    }
+
     public Video() {}
 
     public Video(Integer videoId, String videoName, String videoNameOrigin, String videoURL, String videoTitle, String videoPortrait, String videoPortraitSmall, List<String> bulletScreen, Integer userId, Integer videoLikedNum, Integer videoForwardNum, Integer coinNum, Date createdTime, Integer status) {
